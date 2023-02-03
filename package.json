@@ -1,0 +1,21 @@
+{
+  "name": "virtual-mouse",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "flask": "FLASK_APP=main.py flask run",
+    "babel-version": "babel --version"
+  },
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "electron": "^10.1.5",
+    "npx": "^10.2.2",
+    "vue": "^3.2.46"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "vueify": "^9.4.1"
+  }
+}

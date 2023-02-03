@@ -1,0 +1,21 @@
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">
+                <h3 class="mt-5">Live</h3>
+                <img src="{{ url_for('video_feed') }}" width="100%">
+            </div>
+
+            <div id="app">
+
+                    <button @click="doExit">Exit</button>
+                    <button @click="doAdjust">Adjust</button>
+                    <button @click="doMenu">Menu</button>
+
+            </div>
+        </div>
+    </div>
+</body>
