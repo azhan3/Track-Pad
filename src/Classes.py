@@ -9,19 +9,18 @@ from sklearn.preprocessing import MinMaxScaler
 from pynput.mouse import Button, Controller
 import pyautogui
 import warnings
+import pickle
 import csv
 import src.config as config
 from src.Levels import ChangeLevel
 from src.config import mouse, keyboard, Key
 
-print(Button)
 CamWidth, CamHeight = 1920, 1080
 smooth = 7
 FrameRate = 30
 
 warnings.filterwarnings('ignore')
 scalar = MinMaxScaler(feature_range=(0, 1))
-
 
 def AddtoCSV(lmListML, action):
     lmListML.append(action)
@@ -40,8 +39,22 @@ def trainModel(Nearest_Neighbors=10):
     a.fit(rescaledX, y)
     return a
 
+#classifier = trainModel()
 
-classifier = trainModel()
+def save_model():
+    with open('src/models/knn.pkl', 'wb') as f:
+        pickle.dump(classifier, f)
+    with open('src/models/scaler.pkl', 'wb') as f:
+        pickle.dump(scalar, f)
+
+def import_models():
+    with open('src/models/knn.pkl', 'rb') as f:
+        classifier = pickle.load(f)
+    with open("src/models/scaler.pkl", "rb") as file:
+        scalar = pickle.load(file)
+    return classifier, scalar
+
+classifier, scalar = import_models()
 
 
 def FindMostFrequent(List):
