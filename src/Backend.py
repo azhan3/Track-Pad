@@ -5,6 +5,7 @@ from tkinter import *
 import src.config as config
 from src.config import mouse, Button
 import numpy as np
+from numba import jit
 
 CamWidth, CamHeight = 1920, 1080
 
@@ -35,8 +36,8 @@ class MainWindow:
         self.wScr, self.hScr = 1920.0, 1080.0
         self.Time = None
         self.cap = cap
-        self.cap.set(3, 1920)
-        self.cap.set(4, 1080)
+        self.cap.set(3, 1280)
+        self.cap.set(4, 720)
         self.p = "No Action"
         #self.window = window
         self.PreviousAction = "No Action"
@@ -49,11 +50,21 @@ class MainWindow:
         mouse.release(Button.left)
         config.OKTime = None
 
+    @jit
     def run(self):
         #self.canvas = Canvas(self.window, width=1280, height=720, bg="black")
         #self.canvas.grid(row=0, column=0)
+        num_frames = 0
+        start_time = time.time()
         while self.cap.isOpened():
             success, img = self.cap.read()
+            num_frames += 1
+            elapsed_time = time.time() - start_time
+            fps = num_frames / elapsed_time
+            fps_text = "FPS: {:.2f}".format(fps)
+
+            # Display the framerate on the top right corner of the window
+            
             (h, w) = img.shape[:2]
             r = 480 / float(h)
             
@@ -81,15 +92,22 @@ class MainWindow:
 
                 detector.ChangeLoc()
             if MouseMovement.PauseOrNot is False:
-                cv.putText(self.img2, self.ExecutedFunction, (10, 450), cv.FONT_HERSHEY_DUPLEX, 3, (0, 255, 0), 2,
+                cv.putText(self.img2, self.ExecutedFunction, (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 0), 3,
+                           cv.LINE_AA)
+                cv.putText(self.img2, self.ExecutedFunction, (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2,
                            cv.LINE_AA)
             else:
-                cv.putText(self.img2, "Paused", (10, 450), cv.FONT_HERSHEY_DUPLEX, 3, (0, 255, 0), 2, cv.LINE_AA)
+                cv.putText(self.img2, "Paused", (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 0), 3, cv.LINE_AA)
+                cv.putText(self.img2, "Paused", (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2, cv.LINE_AA)
             if time.time() - config.SwipeTime < 2:
-                cv.putText(self.img2, str(round(time.time() - config.SwipeTime, 1)), (10, 100), cv.FONT_HERSHEY_DUPLEX, 3,
-                           (0, 255, 0),
+                cv.putText(self.img2, str(round(time.time() - config.SwipeTime, 1)), (10, 100), cv.FONT_HERSHEY_SIMPLEX, 3,
+                           (0, 0, 0),
+                           3, cv.LINE_AA)
+                cv.putText(self.img2, str(round(time.time() - config.SwipeTime, 1)), (10, 100), cv.FONT_HERSHEY_SIMPLEX, 3,
+                           (255, 255, 255),
                            2, cv.LINE_AA)
             self.Image()
+            cv.putText(self.ImageShown, fps_text, (1280 - 250, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3, cv.LINE_AA)
             #print(len(self.ImageShown[0]))
             ret, buffer = cv.imencode('.jpg', self.ImageShown)
 
@@ -104,7 +122,7 @@ class MainWindow:
         #self.window.destroy()
         config.Exit = True
 
-
+    @jit
     def Image(self):
         if not MouseMovement.PauseOrNot:
             detector.RecordSwipe(self.img2, self.ExecutedFunction)

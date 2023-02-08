@@ -4,6 +4,7 @@ import numpy as np
 import math
 import pyautogui
 import src.config as config
+from numba import jit
 
 class DetectSwipe():
     def __init__(self):
@@ -19,6 +20,7 @@ class DetectSwipe():
         self.HasSwiped = False
         self.isSwipe = False
 
+    @jit
     def RecordSwipe(self, img, y_pred):
         if (self.StartCounting is True and len(self.SwipeTracker) == 30):
             self.StartCounting = False
@@ -40,7 +42,7 @@ class DetectSwipe():
             else:
                 self.isSwipe = True
 
-
+    @jit
     def CheckSwipe(self):
         TotalDistance = [math.sqrt(
             math.pow(self.Swipes[i + 1][0] - self.Swipes[i][0], 2) + math.pow(self.Swipes[i + 1][1] - self.Swipes[i][1],

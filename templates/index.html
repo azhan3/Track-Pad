@@ -1,6 +1,6 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles.css') }}>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles.css' ) }}>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
     <div class="container">
         <div class="row">
@@ -11,25 +11,32 @@
 
             <div id="app">
 
-                    <button class="button-6" @click="doExit">Exit</button>
-                    <button class="button-6" @click="doAdjust">Adjust</button>
-                    
-                    <button class="button-6" @click="doMenu">Menu</button>
-                    <div v-if="showSlider" class="slider-container1">
-                        <strong>Mouse sensitivity</strong>
-                        <input type="range" min="0" max="100" v-model="slider1Value"/>
-                        <!-- <p>{{ slider1Value }}</p> -->
-                    </div>
-                    <div v-if="showSlider" class="slider-container2">
-                        <strong>Volume sensitivity</strong>
-                        <input type="range" min="0" max="100" v-model="slider2Value">
-                        <!-- <p>{{ slider2Value }}</p> -->
-                      </div>
+                <button class="button-30" @click="doExit">Exit</button>
+                <button class="button-30" @click="doAdjust">Adjust</button>
+
+                <button class="button-30" @click="doMenu">Menu</button>
+                <div v-if="showSlider" class="slider-container1">
+                    <strong>Mouse-Sensitivity</strong>
+                    <input type="range" min="0" max="100" v-model="slider1Value" />
+                    <!-- <p>{{ slider1Value }}</p> -->
+                </div>
+                <div v-if="showSlider" class="slider-container2">
+                    <strong>Volume-Sensitivity</strong>
+                    <input type="range" min="0" max="100" v-model="slider2Value">
+                    <!-- <p>{{ slider2Value }}</p> -->
+                </div>
 
 
-                      <div v-show="showMenu" class="menu-tab">
-                        <!-- Add menu content here -->
-                    </div>
+                <div v-show="showMenu" class="menu-tab">
+                    <button class="menu-button">Button 1</button>
+                    <button class="menu-button">Button 2</button>
+                    <button class="menu-button">Button 3</button>
+                    <button class="menu-button">Button 4</button>
+                    <button class="menu-button">Button 5</button>
+                    <button class="menu-button">Button 6</button>
+                    <button class="menu-button">Button 7</button>
+                    <button class="menu-button">Button 8</button>
+                </div>
             </div>
         </div>
     </div>

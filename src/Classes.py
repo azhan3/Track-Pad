@@ -11,9 +11,11 @@ import pyautogui
 import warnings
 import pickle
 import csv
+import json
 import src.config as config
 from src.Levels import ChangeLevel
 from src.config import mouse, keyboard, Key
+from numba import jit
 
 CamWidth, CamHeight = 1920, 1080
 smooth = 7
@@ -78,6 +80,7 @@ class HandControl(ChangeLevel):
         self.lmList = []
         self.lmListML = []
 
+    @jit
     def Landmarks(self, img):
         imgRGB = cv.cvtColor(img, cv.COLOR_BGR2RGB)
         self.results = self.hands.process(imgRGB)
@@ -86,6 +89,7 @@ class HandControl(ChangeLevel):
                 self.mpDraw.draw_landmarks(img, handLMS, self.mpHands.HAND_CONNECTIONS)
         return img
 
+    @jit
     def findLm(self, img):
         self.lmList = []
         self.lmListML = []
@@ -104,14 +108,15 @@ class HandControl(ChangeLevel):
                 )
             xmin, xmax = min(xList), max(xList)
             ymin, ymax = min(yList), max(yList)
-            cv.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20), (0, 255, 0), 2)
+            cv.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20), (255, 255, 255), 2)
             return self.lmList
 
     def DrawSwipe(self, img):
         if self.isSwipe:
-            cv.putText(img, "Swipe", (10, 250), cv.FONT_HERSHEY_DUPLEX, 3, (0, 255, 0), 2, cv.LINE_AA)
+            cv.putText(img, "Swipe", (10, 250), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 0), 3, cv.LINE_AA)
+            cv.putText(img, "Swipe", (10, 250), cv.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2, cv.LINE_AA)
             for i in range(len(self.Swipes) - 1):
-                cv.line(img, (1280 - self.Swipes[i][0], self.Swipes[i][1]),(1280 - self.Swipes[i + 1][0], self.Swipes[i + 1][1]),(0, 255, 0), 5)
+                cv.line(img, (1280 - self.Swipes[i][0], self.Swipes[i][1]),(1280 - self.Swipes[i + 1][0], self.Swipes[i + 1][1]),(255, 255, 255), 5)
 
     def MoveMouse(self):
         mouse.release(Button.left)
@@ -134,6 +139,7 @@ class HandControl(ChangeLevel):
 
         return config.ActionList[y_pred[0]]
 
+    @jit
     def NewLoc(self, wScr, hScr):
         x1, y1 = self.lmList[9][0:]
         x2, y2 = self.lmList[8][0:]
@@ -176,8 +182,10 @@ class MouseMovement:
             self.PauseOrNot = not self.PauseOrNot
             config.OKTime = None
         else:
-            cv.putText(img, str(round(time.time() - config.OKTime, 1)), (260, 100), cv.FONT_HERSHEY_DUPLEX, 3,
-                       (0, 255, 0), 2, cv.LINE_AA)
+            cv.putText(img, str(round(time.time() - config.OKTime, 1)), (260, 100), cv.FONT_HERSHEY_SIMPLEX, 3,
+                       (0, 0, 0), 3, cv.LINE_AA)
+            cv.putText(img, str(round(time.time() - config.OKTime, 1)), (260, 100), cv.FONT_HERSHEY_SIMPLEX, 3,
+                       (255, 255, 255), 2, cv.LINE_AA)
 
     def MouseSingleClickRight(self):
         mouse.release(Button.left)

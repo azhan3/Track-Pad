@@ -2,7 +2,8 @@ import time
 from src.Swipe import DetectSwipe
 import src.config as config
 from src.config import keyboard, Key, mouse, Button
-
+import json
+from numba import jit
 
 class ChangeLevel(DetectSwipe):
     def __init__(self):
@@ -12,7 +13,7 @@ class ChangeLevel(DetectSwipe):
         self.CurrentPositionY = None
         self.CurrentLevelTime = time.time()
         self.PositionYCounter = 0
-
+    @jit
     def CheckLevel(self, Action, Action2):
         config.OKTime = None
         mouse.release(Button.left)

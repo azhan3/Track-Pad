@@ -1,0 +1,3 @@
+#!C:\Users\alexz\Documents\Windows_Project\VirtualMouse\Scripts\python.exe
+from numba.pycc import main
+main()
