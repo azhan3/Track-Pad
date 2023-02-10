@@ -50,7 +50,7 @@ class MainWindow:
         mouse.release(Button.left)
         config.OKTime = None
 
-    @jit
+    #@jit
     def run(self):
         #self.canvas = Canvas(self.window, width=1280, height=720, bg="black")
         #self.canvas.grid(row=0, column=0)
@@ -122,7 +122,7 @@ class MainWindow:
         #self.window.destroy()
         config.Exit = True
 
-    @jit
+    #@jit
     def Image(self):
         if not MouseMovement.PauseOrNot:
             detector.RecordSwipe(self.img2, self.ExecutedFunction)

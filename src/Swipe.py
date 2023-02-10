@@ -20,7 +20,7 @@ class DetectSwipe():
         self.HasSwiped = False
         self.isSwipe = False
 
-    @jit
+    #@jit
     def RecordSwipe(self, img, y_pred):
         if (self.StartCounting is True and len(self.SwipeTracker) == 30):
             self.StartCounting = False
@@ -42,7 +42,7 @@ class DetectSwipe():
             else:
                 self.isSwipe = True
 
-    @jit
+    #@jit
     def CheckSwipe(self):
         TotalDistance = [math.sqrt(
             math.pow(self.Swipes[i + 1][0] - self.Swipes[i][0], 2) + math.pow(self.Swipes[i + 1][1] - self.Swipes[i][1],

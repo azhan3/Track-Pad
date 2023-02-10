@@ -13,7 +13,7 @@ class ChangeLevel(DetectSwipe):
         self.CurrentPositionY = None
         self.CurrentLevelTime = time.time()
         self.PositionYCounter = 0
-    @jit
+    #@jit
     def CheckLevel(self, Action, Action2):
         config.OKTime = None
         mouse.release(Button.left)

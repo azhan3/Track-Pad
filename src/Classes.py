@@ -80,7 +80,7 @@ class HandControl(ChangeLevel):
         self.lmList = []
         self.lmListML = []
 
-    @jit
+    #@jit
     def Landmarks(self, img):
         imgRGB = cv.cvtColor(img, cv.COLOR_BGR2RGB)
         self.results = self.hands.process(imgRGB)
@@ -89,7 +89,7 @@ class HandControl(ChangeLevel):
                 self.mpDraw.draw_landmarks(img, handLMS, self.mpHands.HAND_CONNECTIONS)
         return img
 
-    @jit
+    #@jit
     def findLm(self, img):
         self.lmList = []
         self.lmListML = []
@@ -139,7 +139,7 @@ class HandControl(ChangeLevel):
 
         return config.ActionList[y_pred[0]]
 
-    @jit
+    #@jit
     def NewLoc(self, wScr, hScr):
         x1, y1 = self.lmList[9][0:]
         x2, y2 = self.lmList[8][0:]

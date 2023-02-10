@@ -5,6 +5,7 @@ import sys
 import src.Backend as Backend
 
 feed = Backend.MainWindow(cv2.VideoCapture(0))
+
 app = Flask(__name__, static_folder='static')
 
 

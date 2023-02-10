@@ -7,6 +7,7 @@
 
 /* CSS */
 .button-30 {
+  z-index: 10;
   width: 100px;
   height: 50px;
   align-items: center;
@@ -14,12 +15,12 @@
   background-color: #FCFCFD;
   border-radius: 4px;
   border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
   box-sizing: border-box;
   color: #36395A;
   cursor: pointer;
   display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
+  font-family: "JetBrains Mono", monospace;
   height: 48px;
   justify-content: center;
   line-height: 1;
@@ -30,13 +31,14 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
+  transition: box-shadow .15s, transform .15s;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
-  will-change: box-shadow,transform;
+  will-change: box-shadow, transform;
   font-size: 18px;
+  
 }
 
 .button-30:focus {
@@ -56,36 +58,192 @@
 
 
 .slider-container1 {
-  margin-left: 10px;
-  font-family: "JetBrains Mono",monospace;
+  position: relative;
+
+  font-family: "JetBrains Mono", monospace;
 
 }
+
+
 .slider-container2 {
-  margin-right: 20px;
-  font-family: "JetBrains Mono",monospace;
+  position: relative;
+
+  font-family: "JetBrains Mono", monospace;
 }
 
 
+h1 a {
+  font-size: 80px;
+  color: #BF2E97;
+  text-decoration: none;
+  text-transform: uppercase;
+  
+}
 
-.menu-tab {
+.popover {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 50%;
-  height: 120%;
-  background-color: #eee;
-  transition: right 0.5s ease-in-out;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 999; /* This sets the menu to appear on top of everything */
 }
 
-.menu-tab.active {
+.popover:target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popover .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 0;
+  height: 0;
+  color: #fff;
+  background-color: #191919f6;
+  animation: 1s grow ease forwards;
+  text-align: center;
+}
+
+.nav_list {
+  list-style-type: none;
+}
+
+.nav_list a {
+  text-decoration: none;
+  font-size: 50px;
+  color: #fff;
+}
+
+.nav_list_item {
+  height: 100%;
+  overflow: hidden;
+}
+
+.nav_list li {
+  padding: 15px 0;
+  text-transform: uppercase;
+  transform: translateY(200px);
+  opacity: 0;
+  animation: 2s slideUp ease forwards .5s;
+  position: relative;
+}
+
+.nav_list li::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 0px;
+  left: 0;
+  bottom: 10px;
+  background: #BF2E97;
+  transition: all .5s ease;
+}
+
+.nav_list li:hover:before {
+  width: 100%;
+}
+
+.popover p {
+
+  opacity: 0;
+  animation: 1s fadeIn ease forwards 1s;
+}
+
+.popover .close::after {
   right: 0;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  display: flex;
+  z-index: 1;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: #005aadf6;
+  color: #fff;
+  content: "×";
+  cursor: pointer;
+  opacity: 0;
+  animation: 1s fadeIn ease forwards .5s;
+}
+
+@keyframes grow {
+  100% {
+    height: 96.8%;
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 
-.menu-button {
-  display: block;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: white;
-  border: 1px solid black;
+
+
+
+
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: #394a56;
+  margin-left: 10px;
+}
+
+.label-text {
+  margin-top: 20px;
+  font-family: "JetBrains Mono", monospace;
+  margin-left: 16px;
+}
+
+.toggle {
+  top: 10px;
+  isolation: isolate;
+  position: relative;
+  height: 30px;
+  width: 60px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow:
+    -8px -4px 8px 0px #ffffff,
+    8px 4px 12px 0px #d1d9e6,
+    4px 4px 4px 0px #d1d9e6 inset,
+    -4px -4px 4px 0px #ffffff inset;
+}
+
+.toggle-state {
+  display: none;
+}
+
+.indicator {
+  height: 100%;
+  width: 200%;
+  background: #037cd8;
+  border-radius: 15px;
+  transform: translate3d(-75%, 0, 0);
+  transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+  box-shadow:
+    -8px -4px 8px 0px #ffffff,
+    8px 4px 12px 0px #d1d9e6;
+}
+
+.toggle-state:checked ~ .indicator {
+  transform: translate3d(25%, 0, 0);
 }

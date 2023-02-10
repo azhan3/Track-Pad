@@ -6,7 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }).$mount('#app');
 });*/
 
-
+/*const fs = require('fs')
+fs.readFile('../VirtualMouse/src/config.json', 'utf8', (err, jsonString) => {
+    if (err) {
+        console.log("File read failed:", err)
+        return
+    }
+    console.log('File data:', jsonString) 
+})*/
 document.addEventListener('DOMContentLoaded', function () {
     new Vue({
         el: '#app',
@@ -27,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function () {
             doMenu() {
                 console.log("Menu button clicked");
                 this.showMenu = !this.showMenu;
+            },
+            onChg (e) {
+                console.log(this.slider1Value)
             },
             mounted() {
                 console.log('Vue instance mounted');
