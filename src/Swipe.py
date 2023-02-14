@@ -28,7 +28,7 @@ class DetectSwipe():
             self.Swipes = []
             self.Swipes = self.SwipeTracker
             self.SwipeTracker = []
-        elif y_pred == "Swipe Action" and self.StartCounting is False and time.time() - config.SwipeTime > 2:
+        elif y_pred in config.SwipeList and self.StartCounting is False and time.time() - config.SwipeTime > 2:
             self.HasSwiped = False
             self.SwipeTracker.append((self.cIndexFingerLocX, self.cIndexFingerLocY, y_pred))
             self.StartCounting = True
@@ -44,10 +44,8 @@ class DetectSwipe():
 
     #@jit
     def CheckSwipe(self):
-        TotalDistance = [math.sqrt(
-            math.pow(self.Swipes[i + 1][0] - self.Swipes[i][0], 2) + math.pow(self.Swipes[i + 1][1] - self.Swipes[i][1],
-                                                                              2)) for i in range(len(self.Swipes) - 1)]
-        if np.array(self.Swipes).T.tolist()[2].count("Swipe Action") > 3 and sum(TotalDistance) * self.Factor > 500:
+        TotalDistance = [self.Swipes[i + 1][0] - self.Swipes[i][0] for i in range(len(self.Swipes) - 1)]
+        if sum(np.array(self.Swipes).T.tolist()[2].count(i)for i in config.SwipeList) > 5 and sum(TotalDistance) * self.Factor > 500:
             print(np.array(self.Swipes).T.tolist())
             if sum([self.Swipes[i][0] - self.Swipes[i + 1][0] for i in range(len(self.Swipes) - 1)]) < 0:
                 pyautogui.hotkey('alt', 'shift', 'tab', _pause=False)
@@ -55,4 +53,5 @@ class DetectSwipe():
             else:
                 pyautogui.hotkey('alt', 'tab')
                 print("Backward")
+            print(sum(TotalDistance) * self.Factor)
             self.HasSwiped = True

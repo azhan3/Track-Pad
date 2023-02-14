@@ -5,20 +5,13 @@ import pynput.keyboard
 
 OKTime = None
 SwipeTime = 0
-ActionList = ["Open Palm", "Fist", "Index Finger", "Swipe Action", "Spider-Man", "OK", "Telephone"]
+ActionList = ["Open Palm", "Fist", "Index Finger", "Double Index Finger", "Spider-Man", "OK", "Telephone"]
 keyboard = pynput.keyboard.Controller()
 Key = pynput.keyboard.Key
 mouse = Controller()
 IsBeingClicked = False
 Username = "Guest"
-GestureDict = {"OpenPalm": "No Action",
-               "Fist": "Move Mouse",
-               "IndexFinger": "Left Click",
-               "SwipeAction": None,
-               "SpiderMan": "Volume Slider",
-               "OK": "Pause",
-               "Telephone": "Drag Mouse"
-               }
+SwipeList = []
 
 
 def VolumeUp():

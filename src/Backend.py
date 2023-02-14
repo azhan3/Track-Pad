@@ -6,6 +6,7 @@ import src.config as config
 from src.config import mouse, Button
 import numpy as np
 from numba import jit
+import json
 
 CamWidth, CamHeight = 1920, 1080
 
@@ -16,23 +17,35 @@ MouseMovement = Classes.MouseMovement()
 def a():
     pass
 
-
 # Main Window
+
 class MainWindow:
     def __init__(self, cap):
-        self.MouseDict = {"Open Palm": detector.MoveMouse,
-                          "Fist": self.NoAction,
-                          "Index Finger": MouseMovement.MouseSingleClickLeft,
-                          "Swipe Action": lambda: detector.RecordSwipe(self.img2, self.ExecutedFunction),
-                          "No Action": self.NoAction,
-                          "Spider-Man": lambda: detector.CheckLevel(config.VolumeUp, config.VolumeDown),
-                          "OK": lambda: MouseMovement.Pause(self.img2),
-                          "Telephone":detector.HoldMouse
-                          }
-        self.SwipeList = []
-        for i in config.GestureDict:
-            if config.GestureDict[i] == "Swipe":
-                self.SwipeList.append(i)
+        self.actions = {"Move Mouse": detector.MoveMouse,
+                           "Left Click": MouseMovement.MouseSingleClickLeft,
+                           "Right Click": MouseMovement.MouseSingleClickRight,
+                           "Volume Slider": lambda: detector.CheckLevel(config.VolumeUp, config.VolumeDown),
+                           "No Action": self.NoAction,
+                           "Pause": lambda: MouseMovement.Pause(self.img2),
+                           "Drag Mouse": detector.HoldMouse,
+                           "Mouse Scroll": lambda: detector.CheckLevel(config.ScrollUp, config.ScrollDown),
+                           "Swipe": lambda: detector.RecordSwipe(self.img2, self.ExecutedFunction)
+        }
+        
+        self.MouseDict = {}
+
+        f = open('./src/config.json')
+        data = json.load(f)["gestures"]
+        tmp = []
+        for i in data:
+            self.MouseDict[i] = self.actions[data[i]]
+            if (data[i] == "Swipe"):
+                tmp.append(i);
+            print(i, data[i])
+        config.SwipeList = tmp;
+        f.close()
+        print(config.SwipeList)
+
         self.wScr, self.hScr = 1920.0, 1080.0
         self.Time = None
         self.cap = cap
@@ -73,25 +86,24 @@ class MainWindow:
             self.img2 = cv.flip(img, 1)
             #self.img2 = cv.cvtColor(self.img2, cv.COLOR_BGR2RGB)
             self.ExecutedFunction = "No Action"
+            f = open('./src/config.json')
+            self.paused = json.load(f)['control']['pause'];
+            f.close()
             if lmList is not None:
                 self.x1, self.y1 = detector.NewLoc(self.wScr, self.hScr)
                 self.PreviouPrevioussAction = self.PreviousAction
                 self.PreviousAction = self.p
-                self.p = detector.CheckAction(self.img2, MouseMovement.PauseOrNot)
-                if self.p == self.PreviousAction == self.PreviouPrevioussAction:
-                    self.ExecutedFunction = self.p
-                else:
-                    self.ExecutedFunction = self.PreviouPrevioussAction
-                if not MouseMovement.PauseOrNot:
-                    # self.MouseDict["Swipe Action"]()
+                self.ExecutedFunction = detector.CheckAction(self.img2, self.paused)
+                
+                if not self.paused:
                     self.MouseDict[self.ExecutedFunction]()
-                elif MouseMovement.PauseOrNot and self.ExecutedFunction == "OK":
+                elif self.paused and self.ExecutedFunction == "OK":
                     self.MouseDict[self.ExecutedFunction]()
                 else:
                     config.OKTime = None
 
                 detector.ChangeLoc()
-            if MouseMovement.PauseOrNot is False:
+            if not self.paused:
                 cv.putText(self.img2, self.ExecutedFunction, (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 0), 3,
                            cv.LINE_AA)
                 cv.putText(self.img2, self.ExecutedFunction, (10, 450), cv.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 2,
@@ -124,7 +136,7 @@ class MainWindow:
 
     #@jit
     def Image(self):
-        if not MouseMovement.PauseOrNot:
+        if not self.paused:
             detector.RecordSwipe(self.img2, self.ExecutedFunction)
             detector.DrawSwipe(self.img2)
         grayImage = cv.cvtColor(self.img2, cv.COLOR_BGR2GRAY)

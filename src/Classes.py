@@ -16,6 +16,7 @@ import src.config as config
 from src.Levels import ChangeLevel
 from src.config import mouse, keyboard, Key
 from numba import jit
+import requests
 
 CamWidth, CamHeight = 1920, 1080
 smooth = 7
@@ -162,13 +163,10 @@ class MouseMovement:
     def __init__(self):
         self.currentTimeLeft = time.time()
         self.currentTimeRight = time.time()
-        self.PauseOrNot = False
 
     def MouseSingleClickLeft(self):
         mouse.release(Button.left)
-        if self.PauseOrNot:
-            pass
-        elif (time.time() - self.currentTimeLeft) > 1:
+        if (time.time() - self.currentTimeLeft) > 1:
             mouse.click(Button.left)
             mouse.release(Button.left)
             self.currentTimeLeft = time.time()
@@ -179,8 +177,16 @@ class MouseMovement:
         if config.OKTime is None:
             config.OKTime = time.time()
         elif config.OKTime + 2 <= time.time():
-            self.PauseOrNot = not self.PauseOrNot
-            config.OKTime = None
+            with open('./src/config.json', 'r') as file:
+                config_p = json.load(file)
+
+            config_p['control']['pause'] = not config_p['control']['pause']
+
+            with open('./src/config.json', 'w') as file:
+                json.dump(config_p, file)
+
+
+            config.OKTime = None;
         else:
             cv.putText(img, str(round(time.time() - config.OKTime, 1)), (260, 100), cv.FONT_HERSHEY_SIMPLEX, 3,
                        (0, 0, 0), 3, cv.LINE_AA)
@@ -189,9 +195,7 @@ class MouseMovement:
 
     def MouseSingleClickRight(self):
         mouse.release(Button.left)
-        if self.PauseOrNot:
-            pass
-        elif (time.time() - self.currentTimeRight) > 1:
+        if (time.time() - self.currentTimeRight) > 1:
             mouse.click(Button.right)
             mouse.release(Button.right)
             self.currentTimeRight = time.time()

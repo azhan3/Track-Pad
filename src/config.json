@@ -1,6 +1,19 @@
 {
+    "control": {
+        "pause": true
+    },
     "sensitivity": {
         "mouse": 5,
         "volume": 5
+    },
+    "gestures": {
+        "Open Palm": "Move Mouse",
+        "Fist": "No Action",
+        "Index Finger": "Left Click",
+        "Double Index Finger": "Swipe",
+        "No Action": "No Action",
+        "Spider-Man": "Volume Slider",
+        "OK": "Pause",
+        "Telephone": "Drag Mouse"
     }
 }

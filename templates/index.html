@@ -2,6 +2,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename='styles.css' ) }}>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
     <div class="container">
 
@@ -19,12 +20,13 @@
                     <button class="button-30" @click="doMenu">Menu</button>
                     <label class="label">
                         <div class="toggle">
-                            <input class="toggle-state" type="checkbox" name="check" value="check" />
+                            <input id="toggle-button" class="toggle-state" type="checkbox" :checked="checkState"
+                                @change="changeState" />
                             <div class="indicator"></div>
                         </div>
                         <div class="label-text">Pause</div>
                     </label>
-                    <div class="slider-container"> 
+                    <div class="slider-container">
                         <div v-if="showSlider" class="slider-container1">
                             <strong>Mouse-Sensitivity</strong>
                             <input type="range" min="0" max="100" v-model="slider1Value" v-on:input="onChg($event)">
@@ -36,41 +38,175 @@
                             <!-- <p>{{ slider2Value }}</p> -->
                         </div>
                     </div>
-                    
+
                 </div>
 
 
-                
 
-                <div class="popover" v-bind:style="{ display: showMenu ? 'flex' : 'none' }">
+
+                <div class="popover" v-bind:style="{ display: showMenu ? 'flex' : 'none', height: popoverHeight + 'px' }">
                     <div class='content'>
-                        <div class="close" @click="doMenu">
-                            <div class='nav'>
-                                <ul class='nav_list'>
+                        <div class="container zoom_invert"><div class="close_icon zoom_invert" @click="doMenu"></div></div>
+                        <div class='nav'>
 
-                                    <div class='nav_list_item'>
-                                        <button class="button-30">Open Palm</button>
-                                        <button class="button-30">Open Palm</button>
-                                        <button class="button-30">Open Palm</button>
-                                    </div>
+                            <div class='nav_list_item'>
+                                <div class="sec-center">
+                                    <label class="menu-label">Open Palm</label>
+                                    
+                                    
+
+                                    <label for="OpenPalm"><span>Open Palm</span></label>
+                                    <input type="checkbox" @click="IncreaseLen1" id="OpenPalm">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">Fist</label>
+                                    <label for="Fist"><span>Fist</span></label>
+                                    <input type="checkbox" @click="IncreaseLen2"  id="Fist">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">Index Finger</label>
+                                    <label for="IndexFinger"><span>Index Finger</span></label>
+                                    <input type="checkbox" @click="IncreaseLen3" id="IndexFinger">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">Double Index Finger</label>
+                                    <label for="DoubleIndexFinger"><span>Swipe</span></label>
+                                    <input type="checkbox" @click="IncreaseLen4" id="DoubleIndexFinger">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
 
 
-                                </ul>
+
+                                </div>
+
+
+                                <div class="sec-center">
+                                    <label class="menu-label">No Action</label>
+                                    <label for="NoAction"><span>No Action</span></label>
+                                    <input type="checkbox" @click="IncreaseLen5" id="NoAction">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">Spider-Man</label>
+                                    <label for="Spider-Man"><span>Spider-Man</span></label>
+                                    <input type="checkbox" @click="IncreaseLen6" id="Spider-Man">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">OK</label>
+                                    <label for="OK"><span>OK</span></label>
+                                    <input type="checkbox" @click="IncreaseLen7" id="OK">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                    <label class="menu-label">Telephone</label>
+                                    <label for="Telephone"><span>Telephone</span></label>
+                                    <input type="checkbox" @click="IncreaseLen8" id="Telephone">
+
+                                    <ul class="slide">
+                                        <button class="button-1">Move Mouse</button>
+                                        <button class="button-1">Left Click</button>
+                                        <button class="button-1">Right Click</button>
+                                        <button class="button-1">Volume Slider</button>
+                                        <button class="button-1">No Action</button>
+                                        <button class="button-1">Pause</button>
+                                        <button class="button-1">Drag Mouse</button>
+                                        <button class="button-1">Mouse Scroll</button>
+                                        <button class="button-1">Swipe</button>
+                                    </ul>
+                                </div>
+                                <script>
+
+                                    $(function() {
+                                    
+                                       $.getJSON('config.json', function(data) {
+                                            var gestures = data.gestures;
+                                            $.each(gestures, function(key, value) {
+                                                $('#' + key.replace(/\s/g, '')).prev().find('span').text(value);
+                                            });
+                                       });
+                                    
+                                    });
+                                    </script>
                             </div>
                         </div>
-
-
                     </div>
+
+
+
+
+
+
+
+
                 </div>
-
-
-
-
-
-
-
-
             </div>
         </div>
-    </div>
 </body>
