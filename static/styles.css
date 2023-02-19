@@ -318,7 +318,7 @@ span::after {
   height: 0px;
   overflow: hidden;
   text-align: center;
-  transition: height .4s ease;
+  transition: height 0.2s ease;
 }
 
 .slide li {
@@ -424,7 +424,7 @@ span::after {
   border: 2px solid #333333;
   border-radius: 5px;
   letter-spacing: 4px;
-  overflow: hidden;
+
   transition: 0.5s;
   cursor: pointer;
 }
@@ -505,4 +505,83 @@ span::after {
   transition: all 0.05s ease-in-out;
   font-size: 1.2em;
   color: rgba(50, 50, 50, 0.8);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.button-apply{
+  width: 250px;
+  height: 65px;
+
+  font-family: "JetBrains Mono", monospace;
+  border: none;
+  outline: none;
+  background: #2d2f31;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px -5px rgba(0,0,0,0.4);
+  position: absolute;
+  overflow: hidden;
+  cursor: pointer;
+  bottom: 25px;
+
+}
+
+.check-box{
+  width: 65px;
+  height: 65px;
+  border-radius: 40px;
+  box-shadow: 0 0 12px -2px rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0;
+  right: -40px;
+  opacity: 0;
+}
+
+.check-box svg{
+  width: 40px;
+  margin: 11px;
+}
+
+.button-apply svg path{
+  stroke-width: 3;
+  stroke: #fff;
+  stroke-dasharray: 34;
+  stroke-dashoffset: 34;
+  stroke-linecap: round;
+}
+
+.button-apply:focus{
+  background: #00b919;
+  transition: 0.5s;
+}
+
+.button-apply:focus .check-box{
+  right: 0;
+  opacity: 1;
+  transition: 1s;
+}
+
+.button-apply:focus p{
+  margin-right: 75px;
+  transition: 1s;
+}
+
+.button-apply:focus svg path{
+  stroke-dashoffset: 0;
+  transition: 1s;
+  transition-delay: 0.5s;
 }
